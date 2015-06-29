@@ -17,7 +17,7 @@ public class User {
 
 private Long id;
 private String name;//昵称
-private String webchartname;//微信名
+private String openid;//微信OpenId
 private String password;
 private String headpicurl;
 private String role;
@@ -43,11 +43,12 @@ public String getPassword() {
 public void setPassword(String password) {
 	this.password = password;
 }
-public String getWebchartname() {
-	return webchartname;
+
+public String getOpenid() {
+	return openid;
 }
-public void setWebchartname(String webchartname) {
-	this.webchartname = webchartname;
+public void setOpenid(String openid) {
+	this.openid = openid;
 }
 public String getHeadpicurl() {
 	return headpicurl;
