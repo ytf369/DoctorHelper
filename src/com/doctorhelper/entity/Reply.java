@@ -1,5 +1,6 @@
 package com.doctorhelper.entity;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 @Entity
 @Table(catalog="doctorhelperdb", name="dh_reply")
@@ -82,6 +84,7 @@ public void setParentreply(Reply parentreply) {
 	this.parentreply = parentreply;
 }
 @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "parentreply")
+@OrderBy("id ASC")
 public Set<Reply> getReplyset() {
 	return replyset;
 }
@@ -96,10 +99,10 @@ public int compareTo(Reply o) {
        
 	 Reply re  =(Reply)o;  
       if(this.id >re.getId())  
-          return 1;  
+          return -1;  
       else if(this.id ==re.getId())  
           return 0;  
-      return -1;  
+      return 1;  
 }
 
 }

@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -14,13 +15,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <title>首页</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
     <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="http://unslider.com/unslider.js"></script>
     <style type="text/css">
-   .jumbotron,.navbar{
+   .jumbotron,.navbar,.alert{
     margin-bottom:2px;
     }
     .row{
@@ -46,7 +47,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   .span12 .carousel-inner,.carousel-inner .item img{
   height: 15em;
     }
-    
+  .thumbnail{
+  margin-bottom: 5px;
+  }
     </style>
   </head>
   
@@ -120,13 +123,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</ol>
 				<div class="carousel-inner column">
 					<div class="item">
-						<img alt="" src="images/image3.jpg" width="100%" height="600px" />
+						<img alt="" src="${ctx}/images/image3.jpg" width="100%" height="600px" />
 					</div>
 					<div class="item active">
-						<img alt="" src="images/image8.jpg"width="100%" height="600px" />
+						<img alt="" src="${ctx}/images/image8.jpg"width="100%" height="600px" />
 					</div>
 					<div class="item">
-						<img alt="" src="images/image4.jpg"width="100%" height="600px" />
+						<img alt="" src="${ctx}/images/image4.jpg"width="100%" height="600px" />
 					</div>
 				</div> <a data-slide="prev" href="#carousel-113723" class="left carousel-control">‹</a> <a data-slide="next" href="#carousel-113723" class="right carousel-control">›</a>
 			</div>
@@ -138,28 +141,76 @@ $(function() {
     $('.banner').unslider();
 });
 </script>
+<c:choose>
+<c:when test="${isAuthed==true }"> 
+<div class="alert alert-success " role="alert">
+<strong><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span></strong> 
+微信已授权登陆
+</div>
+</c:when>
+<c:otherwise>
+<div class="alert alert-warning" role="alert">
+<strong>警告!</strong> 
+ 你处于未认证状态！
+</div>
+</c:otherwise>
+</c:choose>
+
 <div class="row">
   <div class="col-xs-6 ">
     <div class="thumbnail">
-      <img src="images/image1.jpg" alt="..."  >
+      <img src="${ctx}/images/image1.jpg" alt="..."  >
       <div class="caption">
-        <h4>官方资讯</h4>
+        <h4>个人信息</h4>
         <p>...</p>
-        <p><a href="#" class="btn btn-primary" role="button">进入</a></p>
+        <p><a href="#" class="btn btn-primary" role="button">查看</a></p>
       </div>
     </div>
   </div>
   <div class="col-xs-6">
     <div class="thumbnail">
-      <img src="images/image6.jpg" alt="..." >
+      <img src="${ctx}/images/image6.jpg" alt="..." >
       <div class="caption">
         <h4>咨询医生</h4>
         <p>...</p>
-        <p><a href="login.jsp" class="btn btn-primary" role="button">进入</a></p>
+        <p><a href="${ctx}/post/toPostList.action?pagenum=1&size=4" class="btn btn-primary" role="button">进入咨询</a></p>
       </div>
     </div>
   </div>
 </div>
-
+<!-- 第二行 -->
+<div class="row">
+  <div class="col-xs-6 ">
+    <div class="thumbnail">
+      <img src="${ctx}/images/image1.jpg" alt="..."  >
+    <c:choose>
+    <c:when test="${user.isbinded }">
+    <div class="caption">
+    <h4>账号绑定</h4>
+    <p>您已绑定的账号为：<kbd>${user.loginname}</kbd> </p>
+    <p><a href="${ctx}/accountbind.jsp" class="btn btn-primary" role="button">重新绑定</a></p>
+    </div>
+    </c:when>
+    <c:otherwise>
+    <div class="caption">
+        <h4>绑定账号</h4>
+        <p>只有绑定账号后，您才可以在PC端登陆..</p>
+        <p><a href="${ctx}/accountbind.jsp" class="btn btn-primary" role="button">进入</a></p>
+      </div>
+    </c:otherwise>
+    </c:choose>
+    </div>
+  </div>
+  <div class="col-xs-6">
+    <div class="thumbnail">
+      <img src="${ctx}/images/image6.jpg" alt="..." >
+      <div class="caption">
+        <h4>修改密码</h4>
+        <p>修改密码，以确保账号的安全....</p>
+        <p><a href="${ctx}/post/toPostList.action?pagenum=1&size=4" class="btn btn-primary" role="button">进入</a></p>
+      </div>
+    </div>
+  </div>
+</div>
   </body>
 </html>

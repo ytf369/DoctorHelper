@@ -36,6 +36,7 @@ public class AppServletContextListener implements
 	 */
 	@Override
 	public void contextInitialized(final ServletContextEvent even) {
+		even.getServletContext().setAttribute("ctx", even.getServletContext().getContextPath());
 		logger.info("服务已启动...");
         Runnable runnable = new Runnable() {  
 	          public void run() {  

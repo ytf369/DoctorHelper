@@ -3,7 +3,8 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,7 +13,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <title>咨询列表</title>   
         <!-- Bootstrap -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="${ctx }/css/bootstrap.min.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
         <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
         <!--[if lt IE 9]>
@@ -20,15 +21,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
         <style type="text/css">
+        .well{ margin-bottom: 0  }
         </style>
     </head>
     <body>
     <!-- 面板样式1 -->
     <div class="panel panel-primary">
-     <div class="panel-heading">咨询列表1</div>
+     <div class="panel-heading">全部发帖</div>
       <div class="panel-body">
        <ul class="media-list">
-        <li class="media top10" onclick="window.location.href='answer.jsp'">
+       <c:forEach items="${pagerows.list}" var="post">
+        <li class="media top0" onclick="window.location.href='${ctx}/post/viewDetail.action?id=${post.id }'">
         <div class="well">
          <div class="media-left media-middle">
            <a href="#">
@@ -36,37 +39,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            </a>
          </div>
          <div class="media-body">
-          <h4 class="media-heading">咨询标题 <span class="badge">14</span></h4>
-                       资讯内容  资讯内容  资讯内容  资讯内容...  资讯内容  资讯内容  资讯内容  资讯内容...  资讯内容  资讯内容  资讯内容  资讯内容...
+          <h4 class="media-heading">${post.title}<span class="badge pull-right">${fn:length(post.replys)}</span></h4>
+                      ${post.content}
          </div>
          </div>
         </li>
-         <li class="media top10">
-         <div class="well">
-         <div class="media-left media-middle">
-           <a href="#">
-           <img class="media-object" src="images/customDefu.jpeg" alt="..." width="64px" height="64px">
-           </a>
-         </div>
-         <div class="media-body">
-          <h4 class="media-heading">咨询标题 <span class="badge">14</span></h4>
-                       资讯内容  资讯内容  资讯内容  资讯内容...  资讯内容  资讯内容  资讯内容  资讯内容...  资讯内容  资讯内容  资讯内容  资讯内容...
-         </div>
-         </div>
-        </li>
-         <li class="media top10">
-         <div class="well">
-         <div class="media-left media-middle">
-           <a href="#">
-           <img class="media-object" src="images/customDefu.jpeg" alt="..." width="64px" height="64px">
-           </a>
-         </div>
-         <div class="media-body">
-          <h4 class="media-heading">咨询标题 <span class="badge">14</span></h4>
-                       资讯内容  资讯内容  资讯内容  资讯内容...  资讯内容  资讯内容  资讯内容  资讯内容...  资讯内容  资讯内容  资讯内容  资讯内容... 
-         </div>
-         </div>
-        </li>
+       </c:forEach>
       </ul>
 		<nav style="margin-left: 64px">
 		  <ul class="pagination">
@@ -75,11 +53,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <span aria-hidden="true">&laquo;</span>
 		      </a>
 		    </li>
-		    <li class="active"><a href="#">1</a></li>
-		    <li><a href="#">2</a></li>
-		    <li><a href="#">3</a></li>
-		    <li><a href="#">4</a></li>
-		    <li><a href="#">5</a></li>
+		    <c:forEach end="${pagerows.rows }" var="pagenum" step="1" begin="1"> 
+		    <c:choose>
+		    <c:when test="${pagenum==currentpage }">
+		    <li class="active"><a  href="${ctx}/post/toPostList.action?pagenum=${pagenum }&size=4">${pagenum}</a></li>
+		    </c:when>
+		    <c:otherwise>
+		     <li><a href="${ctx}/post/toPostList.action?pagenum=${pagenum }&size=4">${pagenum}</a></li>
+		    </c:otherwise>
+		    </c:choose>
+		    </c:forEach>
 		    <li>
 		      <a href="#" aria-label="Next">
 		        <span aria-hidden="true">&raquo;</span>
@@ -97,7 +80,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- 面板样式2 -->
       <div class="panel panel-default">
          <div class="panel-heading">
-         <h3 class="panel-title">咨询列表2</h3>
+         <h3 class="panel-title">我的发帖</h3>
          </div>
       <div class="panel-body">
        <div class="list-group">
@@ -140,7 +123,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      </div>
      <div class="panel-footer"><button type="button" class="btn btn-primary">我要提问</button></div>
      </div>
-<!-- 面板样式3 -->
+<!-- 面板样式3 
 <div class="panel panel-primary">
          <div class="panel-heading">
          <h3 class="panel-title">咨询列表3</h3>
@@ -196,6 +179,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		</div>	
+		-->
 	<!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
         <script src="http://libs.baidu.com/jquery/1.9.0/jquery.min.js"></script>
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->

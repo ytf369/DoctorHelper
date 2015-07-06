@@ -22,11 +22,11 @@ private String title;
 private String content;
 private Date createtime;
 private Date updatetime;
-private String ispublic; //是否公开
+private String ispublic; //0：未公开的 1：公开的
 private int goodcount;
 private int badcount;
-private String islocked;//是否被锁定
-private String isend;//是否结贴
+private String islocked="0";//0：未锁定 1：锁定
+private String isend="0";//0：未结贴 1：结贴
 private Set<Reply> replys=new TreeSet<Reply>();
 @Id
 @GeneratedValue
@@ -118,4 +118,14 @@ public int compareTo(Post o) {
             return 0;  
         return -1;  
 }
+@Override
+public String toString() {
+	return "Post [id=" + id + ", user=" + user + ", title=" + title
+			+ ", content=" + content + ", createtime=" + createtime
+			+ ", updatetime=" + updatetime + ", ispublic=" + ispublic
+			+ ", goodcount=" + goodcount + ", badcount=" + badcount
+			+ ", islocked=" + islocked + ", isend=" + isend + ", replys="
+			+ replys + "]";
+}
+
 }

@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.dom4j.DocumentException;
@@ -59,9 +60,10 @@ public class WechatServlet extends HttpServlet {
 			logger.info("Message信息：发件人："+fromUserName+"消息类型："+"事件"+event);
 			//推送事件
 			if(MessageUtil.MESSAGE_EVNET.equals(msgType)){
-				String neturl="http://doctorhelper.tunnel.mobi/DoctorHelper/index.jsp";
+				String neturl="http://doctorhelper.tunnel.mobi/DoctorHelper/index.jsp"
+						+ "";
 				if(MessageUtil.MESSAGE_VIEW.equals(event) && neturl.equals(url)) {
-					logger.info("进入健康助手首页...");
+					logger.info("进入健康助手首页..."+req.getSession().getId());
 				}
 			}
 			

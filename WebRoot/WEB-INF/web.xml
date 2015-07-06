@@ -3,7 +3,6 @@
   <display-name>DoctorHelper</display-name>
   <welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
-		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
 	<context-param>
@@ -54,7 +53,12 @@
 		<filter-name>openSession</filter-name>
 		<filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
 	</filter>
-
+    <listener>
+    <listener-class>com.doctorhelper.listener.OpenSessionListener</listener-class>
+    </listener>
+    <session-config>
+		    <session-timeout>30</session-timeout>
+	</session-config>
 	<filter-mapping>
 		<filter-name>openSession</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -65,8 +69,21 @@
      <servlet-class>com.doctorhelper.servlet.WechatServlet</servlet-class>
     </servlet>
     
-	<servlet-mapping>
+    <servlet-mapping>
 	    <servlet-name>WechatServlet</servlet-name>
 	    <url-pattern>/wx.do</url-pattern>
 	</servlet-mapping>
+    <!-- 测试移动还是PC访问 -->
+    <servlet>
+     <servlet-name>testMobileServlet</servlet-name>
+     <servlet-class>com.doctorhelper.test.MobileRequestTest</servlet-class>
+    </servlet>
+	<servlet-mapping>
+	    <servlet-name>testMobileServlet</servlet-name>
+	    <url-pattern>/test.do</url-pattern>
+	</servlet-mapping>
+	
+
+    
+	
 </web-app>
