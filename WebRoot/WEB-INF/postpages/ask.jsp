@@ -136,8 +136,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> 
         <script src="${ctx }/js/bootstrap-switch.min.js"></script>
-       
-         <script src="${ctx }/js/selectImg.js"></script> 
+        <script src="${ctx }/js/selectImg.js"></script> 
         <script type="text/javascript">
            $(":input[name='ispublic']").bootstrapSwitch();
            $("#publishbtn").on("click", function(){
