@@ -49,6 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
   .thumbnail{
   margin-bottom: 5px;
+  text-align: center;
   }
     </style>
   </head>
@@ -65,39 +66,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">导航菜单</a>
+      <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>导航菜单</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li>
+        <li class="active"><a  href="${ctx}/user/entermain.action"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;首页 <span class="sr-only">(current)</span></a></li>
+        <li><a href="${ctx}/user/findUserinfo.action"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;个人中心</a></li>
+        <li><a href="${ctx}/post/toPostList.action?pagenum=1&size=4"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;医生咨询</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -109,32 +86,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <p><a class="btn btn-primary btn-lg" href="#" role="button">关于更多..</a></p>
 </div>
  --> 
-<div class="container-fluid column">
-	<div class="row-fluid column">
-		<div class="span12">
-			<div class="carousel slide" id="carousel-113723">
-				<ol class="carousel-indicators">
-					<li data-slide-to="0" data-target="#carousel-113723">
-					</li>
-					<li data-slide-to="1" data-target="#carousel-113723" class="active">
-					</li>
-					<li data-slide-to="2" data-target="#carousel-113723">
-					</li>
-				</ol>
-				<div class="carousel-inner column">
-					<div class="item">
-						<img alt="" src="${ctx}/images/image3.jpg" width="100%" height="600px" />
-					</div>
-					<div class="item active">
-						<img alt="" src="${ctx}/images/image8.jpg"width="100%" height="600px" />
-					</div>
-					<div class="item">
-						<img alt="" src="${ctx}/images/image4.jpg"width="100%" height="600px" />
-					</div>
-				</div> <a data-slide="prev" href="#carousel-113723" class="left carousel-control">‹</a> <a data-slide="next" href="#carousel-113723" class="right carousel-control">›</a>
-			</div>
-		</div>
-	</div>
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    <div class="item active">
+      <img src="${ctx }/images/image3.jpg" alt="..." width="1280px" height="600px">
+      <div class="carousel-caption">
+        ...
+      </div>
+    </div>
+    <div class="item">
+       <img src="${ctx }/images/image4.jpg" alt="..." width="1280px" height="600px">
+      <div class="carousel-caption">
+        ...
+      </div>
+    </div>
+     <div class="item">
+       <img src="${ctx }/images/image8.jpg" alt="..." width="1280px" height="600px">
+      <div class="carousel-caption">
+        ...
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
 </div>
 <script type="text/javascript">
 $(function() {
@@ -159,17 +149,17 @@ $(function() {
 <div class="row">
   <div class="col-xs-6 ">
     <div class="thumbnail">
-      <img src="${ctx}/images/image1.jpg" alt="..."  >
+    <h3><span class="glyphicon glyphicon-user" aria-hidden="true"></span></h3>  
       <div class="caption">
         <h4>个人信息</h4>
         <p>...</p>
-        <p><a href="#" class="btn btn-primary" role="button">查看</a></p>
+        <p><a href="${ctx}/user/findUserinfo.action" class="btn btn-primary" role="button">查看</a></p>
       </div>
     </div>
   </div>
   <div class="col-xs-6">
     <div class="thumbnail">
-      <img src="${ctx}/images/image6.jpg" alt="..." >
+      <h3><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></h3>  
       <div class="caption">
         <h4>咨询医生</h4>
         <p>...</p>
@@ -182,7 +172,7 @@ $(function() {
 <div class="row">
   <div class="col-xs-6 ">
     <div class="thumbnail">
-      <img src="${ctx}/images/image1.jpg" alt="..."  >
+    <h3><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></h3>  
     <c:choose>
     <c:when test="${user.isbinded }">
     <div class="caption">
@@ -203,11 +193,11 @@ $(function() {
   </div>
   <div class="col-xs-6">
     <div class="thumbnail">
-      <img src="${ctx}/images/image6.jpg" alt="..." >
+      <h3><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></h3>  
       <div class="caption">
-        <h4>修改密码</h4>
-        <p>修改密码，以确保账号的安全....</p>
-        <p><a href="${ctx}/post/toPostList.action?pagenum=1&size=4" class="btn btn-primary" role="button">进入</a></p>
+      <h4>修改密码</h4>
+      <p>修改密码，以确保账号的安全....</p>
+      <p><a href="${ctx }/user/toMidifyPwd.action" class="btn btn-primary" role="button">进入</a></p>
       </div>
     </div>
   </div>

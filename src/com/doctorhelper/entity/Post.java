@@ -1,6 +1,8 @@
 package com.doctorhelper.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -12,7 +14,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 @Entity
 @Table(catalog="doctorhelperdb", name="dh_post")
 public class Post implements Comparable<Post>{
@@ -28,6 +33,8 @@ private int badcount;
 private String islocked="0";//0：未锁定 1：锁定
 private String isend="0";//0：未结贴 1：结贴
 private Set<Reply> replys=new TreeSet<Reply>();
+private Set<Attempt> attepmts=new HashSet<Attempt>();
+private Department dept;
 @Id
 @GeneratedValue
 public Long getId() {
@@ -56,6 +63,7 @@ public String getContent() {
 public void setContent(String content) {
 	this.content = content;
 }
+@Temporal(TemporalType.TIMESTAMP) 
 public Date getCreatetime() {
 	return createtime;
 }
@@ -99,11 +107,28 @@ public void setIsend(String isend) {
 	this.isend = isend;
 }
 @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch =FetchType.LAZY, targetEntity = Reply.class) 
+@OrderBy("createtime")
 public Set<Reply> getReplys() {
 	return replys;
 }
 public void setReplys(Set<Reply> replys) {
 	this.replys = replys;
+}
+@OneToMany(cascade = CascadeType.ALL) 
+@JoinColumn(name="post_id")
+public Set<Attempt> getAttepmts() {
+	return attepmts;
+}
+public void setAttepmts(Set<Attempt> attepmts) {
+	this.attepmts = attepmts;
+}
+@ManyToOne(targetEntity=Department.class)
+@JoinColumn(name ="dept_id")   
+public Department getDept() {
+	return dept;
+}
+public void setDept(Department dept) {
+	this.dept = dept;
 }
 //排序
 @Override

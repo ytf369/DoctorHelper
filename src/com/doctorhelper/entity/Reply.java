@@ -25,8 +25,8 @@ private Reply parentreply;//回复父id
 private Set<Reply> replyset=new TreeSet<Reply>();//对该回复的回复
 private String content;
 private Date createtime;
-private int goodcount;
-private int badcount;
+private int goodcount=0;
+private int badcount=0;
 @Id
 @GeneratedValue
 public Long getId() {
@@ -84,7 +84,7 @@ public void setParentreply(Reply parentreply) {
 	this.parentreply = parentreply;
 }
 @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "parentreply")
-@OrderBy("id ASC")
+@OrderBy("createtime ASC")
 public Set<Reply> getReplyset() {
 	return replyset;
 }

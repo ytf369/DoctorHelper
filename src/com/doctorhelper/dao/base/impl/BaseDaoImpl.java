@@ -47,7 +47,7 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
 	 */
 	@Override
 	public List<T> queryAlllist(Class<T> clazz) {
-		return getSession().createCriteria(clazz.getClass()).list();
+		return getSession().createCriteria(clazz).list();
 	}
 
 	/**
@@ -85,6 +85,40 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
 	@Override
 	public Long querylistCount(String hql) {
 		return (Long) getSession().createQuery(hql).uniqueResult();
+	}
+
+	//本地sql查询
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<T> querylistNativeSql(String sql,Class<T> clazz) {
+		return getSession().createSQLQuery(sql)
+				.addEntity(clazz)
+				.list();
+	}
+
+	//带分页的本地sql查询
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<T> querylistNativeSqlWithPage(String sql, Class<T> clazz,
+			int pagenum, int size) {
+		return getSession().createSQLQuery(sql)
+				.addEntity(clazz)
+				.setFirstResult((pagenum - 1) * size)
+				.setMaxResults(size)
+				.list();
+	}
+
+	//sql查询数量
+	@Override
+	public Long querylistSqlCount(String sql) {
+		return Long.valueOf(getSession().createSQLQuery(sql).uniqueResult().toString());
+	}
+
+	//执行hql
+	@Override
+	public void excuteHqlquery(String hql) {
+		getSession().createQuery(hql).executeUpdate();
+		
 	}
 
 

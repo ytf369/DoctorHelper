@@ -11,7 +11,7 @@ public class PropUtil {
 	     */  
 	    static{  
 	        try {  
-	            p.load(PropUtil.class.getClassLoader().getResourceAsStream("config/wechat.properties"));  
+	            p.load(PropUtil.class.getClassLoader().getResourceAsStream("config/appconfig.properties"));  
 	        } catch (IOException e) {  
 	            e.printStackTrace();   
 	        }  

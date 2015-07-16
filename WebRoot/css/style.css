@@ -11,6 +11,9 @@
 .top10{
 	margin-top: 10px
 }
+.top20{
+	margin-top: 20px
+}
 .left10{
 	margin-left: 10px
 }
@@ -43,12 +46,20 @@ font-size: 40%;
 }
 .fixtop{
   position: fixed;
-  right: 0;
+  top: 0;
   left: 0;
+  right:0;
 }
 .top0{
 	margin-top: 0
 }
 .bottom0{
 margin-bottom: 0	
+}
+.bordersolid{
+	border: 1px solid;
+}
+.padding-leftright2{
+	padding-left: 2px;
+	padding-right:2px
 }

@@ -4,7 +4,6 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
 <!DOCTYPE html>
 <html>
      <head>
@@ -24,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="well well-lg" >
   <div  class="container">
   <div class="row">
-   <div class="col-xs-10 col-xs-offset-1 col-ms-6 col-ms-offset-3">
+   <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
       <form class="form-horizontal" action="${ctx }/user/login.action" method="post" id="loginForm">
         <div class="page-header center top10">
         <h2 class="form-signin-heading"><small><span class="glyphicon glyphicon-user" aria-hidden="true"></span></small>&nbsp;用户登录</h2>
@@ -35,6 +34,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <strong>错误!</strong> 用户名或密码不正确！
           </div>
         </c:if>  
+          <c:if test="${loginstatus==3 }">
+         <div class="alert alert-danger alert-dismissible" role="alert" id="warning-name">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>错误!</strong> 您的医生资格还未通过审核！
+          </div>
+        </c:if> 
         <div class="input-group">
         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
         <label for="inputname" class="sr-only">用户名</label>

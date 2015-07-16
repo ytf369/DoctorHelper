@@ -27,11 +27,16 @@ private String password;
 private String headpicurl;//用户头像，最后一个数值代表正方形头像大小（有0、46、64、96、132数值可选，0代表640*640正方形头像），用户没有头像时该项为空。若用户更换头像，原有头像URL将失效。
 private String privilege;//用户特权信息，json 数组，如微信沃卡用户为（chinaunicom）
 private String unionid;//只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。
-private String role="0";//0:普通用户 1：后台医生
+private String role;//0:普通用户 1：后台医生
 private boolean isbinded=false;//0:未绑定 1：绑定
 private Set<Post> posts=new TreeSet<Post>();//我发表的
 private Set<Reply> replys=new TreeSet<Reply>();//我回复的
-
+private String realname;//真实姓名
+private String birthday;//生日
+private String idcard;//证件号
+private String phone;//电话
+private String community;//社区
+private String chicked;//0:未审核，1：已审核
 @Id
 @GeneratedValue
 public Long getId() {
@@ -135,6 +140,42 @@ public boolean isIsbinded() {
 }
 public void setIsbinded(boolean isbinded) {
 	this.isbinded = isbinded;
+}
+public String getRealname() {
+	return realname;
+}
+public void setRealname(String realname) {
+	this.realname = realname;
+}
+public String getBirthday() {
+	return birthday;
+}
+public void setBirthday(String birthday) {
+	this.birthday = birthday;
+}
+public String getIdcard() {
+	return idcard;
+}
+public void setIdcard(String idcard) {
+	this.idcard = idcard;
+}
+public String getPhone() {
+	return phone;
+}
+public void setPhone(String phone) {
+	this.phone = phone;
+}
+public String getCommunity() {
+	return community;
+}
+public void setCommunity(String community) {
+	this.community = community;
+}
+public String getChicked() {
+	return chicked;
+}
+public void setChicked(String chicked) {
+	this.chicked = chicked;
 }
 
 }
