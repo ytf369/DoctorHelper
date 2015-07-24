@@ -58,16 +58,34 @@ public class UserController {
     			u.setName(jsonObj.getString("nickname"));
     			u.setCity(jsonObj.getString("city"));
     			u.setCountry(jsonObj.getString("country"));
+    			if("".equals(jsonObj.getString("headimgurl"))){
+    				//设置默认头像
+    				u.setHeadpicurl("/DoctorHelper/images/DefuHeadpic.png");
+    			}
+    			else{
     			u.setHeadpicurl(jsonObj.getString("headimgurl"));
+    			}
     			u.setOpenid(jsonObj.getString("openid"));
     			u.setSex(jsonObj.getString("sex"));
     			//u.setUnionid(jsonObj.getString("unionid"));
     			u.setPrivilege(jsonObj.getString("privilege"));
     			userservice.saveorupdateUser(u);
     			session.setAttribute("user", u);
+    			String realname_url;
+    			String community_url;
     			//保存用户姓名，社区到cookie
-    			String realname_url=URLEncoder.encode(u.getRealname(),"utf-8");
-        		String community_url=URLEncoder.encode(u.getCommunity(),"utf-8");
+    			if(u.getRealname()==null){
+    				realname_url=URLEncoder.encode("","utf-8");
+    			}
+    			else{
+    				realname_url=URLEncoder.encode(u.getRealname(),"utf-8");
+    			}
+    			if(u.getCommunity()==null){
+    				community_url=URLEncoder.encode("","utf-8");
+    			}
+    			else{
+        		community_url=URLEncoder.encode(u.getCommunity(),"utf-8");
+    			}
     			Cookie cookie = new Cookie("cookie_user",realname_url +"|"+community_url);
     			response.addCookie(cookie);
     			model.addAttribute("isAuthed", true);
@@ -86,6 +104,21 @@ public class UserController {
     	return "index";
     }
     /**
+     * 跳转到绑定页面
+     * @param session
+     * @param user
+     * @return
+     */
+    @RequestMapping("/toBinduser.action")
+    public String toBinduser(HttpSession session,User user){
+
+    	if(session==null||session.getAttribute("user")==null){
+    		//返回重新授权页面
+    		return "/WEB-INF/error/invalidation";
+    	}
+    	return "accountbind";
+    }
+    /**
      * 绑定新用户
      * @param session
      * @param u
@@ -93,29 +126,31 @@ public class UserController {
      */
     @RequestMapping("/bind.action")
     public String binduser(HttpSession session,User user){
-    	
     	if(session==null||session.getAttribute("user")==null){
     		//返回重新授权页面
     		return "/WEB-INF/error/invalidation";
     	}
     	else{
         User u=(User) session.getAttribute("user");
-        if(u.getRole()=="0"){
+        if("0".equals(user.getRole())){
         	u.setChicked("1");
         }
         else{
         	//专家医生需审核
         	u.setChicked("0");
         }
-        u.setIsbinded(true);
-        u.setPassword(u.getPassword());
+        u.setRole(user.getRole());
+        u.setIsbinded("1");
+        u.setLoginname(user.getLoginname());
+        u.setPassword(user.getPassword());
         u.setBirthday(user.getBirthday());
         u.setCommunity(user.getCommunity());
         u.setIdcard(user.getIdcard());
         u.setPhone(user.getPhone());
         u.setRealname(user.getRealname());
     	userservice.saveorupdateUser(u);
-    	return "login";
+    	session.setAttribute("user", u);
+    	return "redirect:/user/entermain.action";
     	}
     }
     /**
@@ -148,7 +183,7 @@ public class UserController {
 			Cookie cookie = new Cookie("cookie_user",realname_url+ "|"+community_url);
 			cookie.setPath("/");
 			response.addCookie(cookie);
-    		return "redirect:/post/toPostList.action?pagenum=1&size=4";
+    		return "redirect:/post/toPostList.action?pagenum=1&size=4&lately=lately";
     		}
     	}
     	else{
@@ -279,6 +314,32 @@ public class UserController {
 			mg.setText("failed");
 		}
     	  return mg;
+      }
+      /**
+       * 用户是否绑定
+       * @param session
+       * @return
+       */
+      @ResponseBody
+      @RequestMapping("/checkisbinded.action")
+      public Message checkisbinded(HttpSession session){
+    	  Message mg=new Message();
+    	  if(session==null||session.getAttribute("user")==null){
+    		  mg.setCode(3);
+    		  mg.setText("微信未授权您的账号或未登录！");
+    		  return mg;
+      	   }
+    	  User u=(User) session.getAttribute("user");
+        	if("0".equals(u.getIsbinded())){
+        		mg.setCode(0);
+        		mg.setText("您还未绑定账号！");
+        	}
+        	else{
+        		mg.setCode(1);
+        		mg.setText("可以修改密码");
+        	}
+        	System.out.println(mg.getCode());
+        	return mg;
       }
       /**
        * 跳转到修改密码页

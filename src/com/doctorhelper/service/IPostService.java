@@ -1,5 +1,6 @@
 package com.doctorhelper.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.doctorhelper.entity.Message;
@@ -39,4 +40,8 @@ public interface IPostService {
     List<Post> querymyPosts(User u,int pagenum , int size);
     //查询我发帖的数量
     Long querymyPostsCount(User u);
+    //查询时间段内更新数据
+	Integer querylatelypublicpostsCount(User u,String begintime);
+	//查询时间段内回复我的
+	Long querymylatelypostCount(User u,String begintime);
 }

@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(catalog="doctorhelperdb", name="dh_user")
+@Table(name="dh_user")
 public class User {
 
 private Long id;
@@ -28,7 +28,7 @@ private String headpicurl;//用户头像，最后一个数值代表正方形头�
 private String privilege;//用户特权信息，json 数组，如微信沃卡用户为（chinaunicom）
 private String unionid;//只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。
 private String role;//0:普通用户 1：后台医生
-private boolean isbinded=false;//0:未绑定 1：绑定
+private String isbinded="0";//0:未绑定 1：绑定
 private Set<Post> posts=new TreeSet<Post>();//我发表的
 private Set<Reply> replys=new TreeSet<Reply>();//我回复的
 private String realname;//真实姓名
@@ -135,10 +135,11 @@ public Set<Reply> getReplys() {
 public void setReplys(Set<Reply> replys) {
 	this.replys = replys;
 }
-public boolean isIsbinded() {
+
+public String getIsbinded() {
 	return isbinded;
 }
-public void setIsbinded(boolean isbinded) {
+public void setIsbinded(String isbinded) {
 	this.isbinded = isbinded;
 }
 public String getRealname() {

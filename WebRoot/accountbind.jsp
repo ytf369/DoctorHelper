@@ -14,12 +14,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <title>账号绑定</title>
     <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${ctx}/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen"/>
+    <link rel="stylesheet" href="${ctx}/css/jquery.autocomplete.css" type="text/css" />  
     <link href="${ctx}/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="${ctx}/css/default.css">
     <link rel="stylesheet" href="${ctx}/css/default.date.css">
-    <!-- Bootstrap -->
-    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <style type="text/css">
     .error{
     color: red
@@ -31,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div  class="container">
   <div class="row">
    <div class="col-xs-12 col-md-6 col-md-offset-3">
-      <form class="form-horizontal" action="user/bind.action" id="bindform" method="post">
+      <form class="form-horizontal" action="${ctx}/user/bind.action" id="bindform" method="post">
         <div class="page-header center top10">
         <h2 class="form-signin-heading"><small><span class="glyphicon glyphicon-user" aria-hidden="true"></span></small>&nbsp;用户绑定</h2>
         </div>
@@ -47,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <label for="realname" class="sr-only"></label>
         <input type="text" id="realname" name="realname" class="form-control" placeholder="真实姓名" required=true aria-describedby="basic-addon1">
         </div>
-           <div class="input-group has-success">
+        <div class="input-group has-success date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
          <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-calendar"></span></span>
         <label for="birthday" class="sr-only">出生年月</label>
         <input type="text" id="birthday" name="birthday" class="form-control" placeholder="出生年月" required=true aria-describedby="basic-addon1">
@@ -65,23 +64,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div class="input-group has-success col-xs-12 ">
         <label for="name" class="has-success"><span class="glyphicon glyphicon-home"></span>&nbsp;选择社区：</label>
-        <select class="form-control input-group has-success" name="community">
-		  <option>社区1</option>
-		  <option>社区2</option>
-		  <option>社区3</option>
-		  <option>社区4</option>
-		  <option>社区5</option>
-        </select>
+         <div class="input-group has-success">
+         <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-phone"></span></span>
+        <label for="phone" class="sr-only">社区</label>
+        <input type="text" id="community" name="community" class="form-control" placeholder="社区" required=true aria-describedby="basic-addon1">
         </div>
-      <!--   <div class="input-group col-xs-12">
-         <select class="form-control input-group">
-		  <option>二级社区11</option>
-		  <option>二级社区12</option>
-		  <option>二级社区13</option>
-		  <option>二级社区14</option>
-		  <option>二级社区15</option>
-        </select>
-        </div> -->
+        </div>
          <div class="input-group has-success col-xs-12 ">
         <label for="name" class="has-success"><span class="glyphicon glyphicon-hand-right"></span>&nbsp;您是：</label>
         <select class="form-control input-group has-success" name="role">
@@ -123,30 +111,77 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 </div>
 </div>
-    <script src="${ctx}/js/jquery-1.9.1.js"></script>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${ctx}/js/datapicker/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${ctx}/js/datapicker/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
     <script src="${ctx}/js/picker.js"></script>
     <script src="${ctx}/js/picker.date.js"></script>
     <script src="${ctx}/js/legacy.js"></script>
     <script src="${ctx}/js/zh_CN.js"></script>
     <script src="${ctx}/js/myvalidate.js"></script>
+    <script type="text/javascript">
+    
+    $(".form_date").datetimepicker({
+    	format: 'yyyy-mm-dd',
+    	minView:'2',
+    	todayBtn:true,
+    	autoclose:true,
+    	language:'zh-CN',
+    	pickerPosition: "bottom-right"
+    	});
+    </script>
+    <script type="text/javascript">
+  var _$ = jQuery.noConflict(true);
+   </script>
+<script src="${ctx}/js/jquery.js"></script>   
+<script type="text/javascript" src="${ctx}/js/jquery.autocomplete.js"></script>  
 <script type="text/javascript">
-var $input = $( '#birthday' ).pickadate({
-    formatSubmit: 'yyyy-mm-dd',
-    // min: [2015, 7, 14],
-    container: '.container',
-    // editable: true,
-    closeOnSelect: false,
-    closeOnClear: false,
-})
-
-var picker = $input.pickadate('picker')
-// picker.set('select', '14 October, 2014')
-// picker.open()
-
-// $('button').on('click', function() {
-//     picker.set('disable', true);
-// });
-
+$(document).ready(function () { 
+	$.ajax({ 
+		type: "POST", 
+		contentType: "application/json", 
+		url: "${ctx}/community/queryAllCommunity.action", 
+		data: "{}", 
+		dataType: "json", 
+		success: function (msg) { 
+		var datas =msg; 
+		$("#community").autocomplete(datas, {
+	    matchContains:true,
+		formatItem: function (row, i, max) { 
+		return "<span style=\"font-size:14px;line-height: 2px;\">"+row.name+"</span>"; 
+		}, 
+		formatMatch: function(row, i, max){ 
+		return row.name; 
+		} 
+		}); 
+		} 
+		}); 
+	});
+/**
+ * 验证用户名是否重复
+ */
+function vallidatenameisused(){
+	var uname=$("#inputname");
+	$.ajax({
+		   async:false,
+		   type: "post",
+		   cache:false,
+		   url: "${ctx}/user/checkUsernameIsused.action?currdate="+new Date(),
+		   data: {name:uname.val()},
+		   dataType: "json",
+		   success: function(msg){
+			   if(msg.code==0){
+				   uname.parent().prev().text('用户名已存在'); 
+				   flag=false;
+			   }
+			   else{
+				   uname.parent().prev().text(''); 
+				   flag=true;  
+			   }
+		   }
+		});
+}
 </script>
   </body>
 </html>

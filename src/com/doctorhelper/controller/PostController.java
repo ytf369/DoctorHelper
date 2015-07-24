@@ -30,6 +30,7 @@ import com.doctorhelper.entity.Post;
 import com.doctorhelper.entity.User;
 import com.doctorhelper.service.IDeptService;
 import com.doctorhelper.service.IPostService;
+import com.doctorhelper.util.CommonDateParseUtil;
 import com.doctorhelper.util.PageUtil;
 import com.doctorhelper.util.PropUtil;
 @Controller
@@ -49,14 +50,23 @@ private static Logger logger = Logger.getLogger(PostController.class);
  * @return
  */
 @RequestMapping("/toPostList.action")
-public String toPostList(HttpSession session,Model model,Integer pagenum,Integer size){
+public String toPostList(HttpSession session,Model model,Integer pagenum,Integer size,String lately){
+	
 	List<Post> list = null;
 	Long count = null;
 	long rows;
 	PageList pagerows=new PageList();
 	User u=(User)session.getAttribute("user");
-	if("0".equals(u.getRole())){
+	if("0".equals(u.getRole())||u.getRole()==null){
 		//普通用户
+		//查询刚更新的
+		if(!"".equals(lately)&&lately!=null){
+			//session存入当前时间
+			if(session.getAttribute("begintime")==null){
+			session.setAttribute("begintime", CommonDateParseUtil.date2string(new Date(), CommonDateParseUtil.YYYY_MM_DD_HH_MM_SS));
+			}
+			querylatelyPostsByDate(session,u);
+		}
 		list=postservice.queryPublicPostandMine(pagenum, size, u.getId());
 		count =postservice.queryPublicPostandMineCount(u.getId());
 		if(count%size>0){
@@ -79,6 +89,11 @@ public String toPostList(HttpSession session,Model model,Integer pagenum,Integer
 	}
 	else{
 		//后台医生
+		if("0".equals(u.getChicked())){
+			//未审核
+			return "/WEB-INF/error/isuncheckedRole";
+		}
+		
 		//未回复的话题
 		 list=postservice.querynoreplyPost(pagenum, size);
 		//最近更新的已回复的话题
@@ -175,6 +190,10 @@ public String lastyUpdatePost(Model model,Integer pagenum,Integer size){
 	else{
 		rows=count/size;
 	}
+	Long beginPage=PageUtil.getbeginPage(pagenum, 4);
+	Long endPage=PageUtil.getendPage(rows, pagenum, 4);
+	model.addAttribute("beginPage", beginPage);
+	model.addAttribute("endPage", endPage);
 	logger.info("共"+rows+"页");
 	pagerows.setList(list);
 	pagerows.setRows(rows);
@@ -206,6 +225,10 @@ public String postsWithMyreply(HttpSession session,Model model,Integer pagenum,I
 	else{
 		rows=count/size;
 	}
+	Long beginPage=PageUtil.getbeginPage(pagenum, 4);
+	Long endPage=PageUtil.getendPage(rows, pagenum, 4);
+	model.addAttribute("beginPage", beginPage);
+	model.addAttribute("endPage", endPage);
 	logger.info("共"+rows+"页");
 	pagerows.setList(list);
 	pagerows.setRows(rows);
@@ -238,6 +261,10 @@ public String myposts(HttpSession session,Model model,Integer pagenum,Integer si
 	else{
 		rows=count/size;
 	}
+	Long beginPage=PageUtil.getbeginPage(pagenum, 4);
+	Long endPage=PageUtil.getendPage(rows, pagenum, 4);
+	model.addAttribute("beginPage", beginPage);
+	model.addAttribute("endPage", endPage);
 	logger.info("共"+rows+"页");
 	pagerows.setList(list);
 	pagerows.setRows(rows);
@@ -246,7 +273,7 @@ public String myposts(HttpSession session,Model model,Integer pagenum,Integer si
 	model.addAttribute("poststate", "myposts");
 	return "/WEB-INF/postpages/userprivatelist";
 }
-
+//公用方法**********************************************
 /**
  * 上传图片
  * @param request
@@ -290,4 +317,22 @@ public void handleFormUpload(HttpServletRequest request,Post p){
 	  }  
 	  p.setAttepmts(apts);
 	 } 
-}
+		/**
+		 * 用户调用：查询时间段内更新的数据
+		 * @param session
+		 */
+		public void querylatelyPostsByDate(HttpSession session,User u){
+			System.out.println("上次更新当前时间："+(String) session.getAttribute("begintime"));
+			String begintime=(String) session.getAttribute("begintime");
+			//List<Post> latelypublicposts=postservice.querylatelypublicposts(begintime);//查询时间段内最近更新
+			Integer latelypublicpostsCount=postservice.querylatelypublicpostsCount(u,begintime);
+			System.out.println("刚更新数："+latelypublicpostsCount);
+			//List<Post> mylatelypost=postservice.querymylatelypost();//查询时间段内回复我的
+			Long mylatelypostCount=postservice.querymylatelypostCount(u,begintime);
+			System.out.println("刚回复我数："+mylatelypostCount);
+			//更新当前时间
+			session.setAttribute("latelypublicpostsCount", latelypublicpostsCount);
+			session.setAttribute("mylatelypostCount", mylatelypostCount);
+			session.setAttribute("begintime", CommonDateParseUtil.date2string(new Date(), CommonDateParseUtil.YYYY_MM_DD_HH_MM_SS));
+		}
+		}

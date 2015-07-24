@@ -125,6 +125,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      </div>
     </div>
 <p>${reply.content }</p>
+<c:if test="${fn:length(reply.attepmts)>0}">
+<c:forEach items="${reply.attepmts }" var="attemptrep">
+  <div class="col-xs-10 col-md-4">
+    <a href="#" class="thumbnail">
+      <img src="${attemptrep.fileurl}" alt="...">
+    </a>
+  </div>
+ </c:forEach>
+</c:if>  
 <c:if test="${fn:length(reply.replyset)>0}">
 <hr/>
 </c:if>
@@ -147,13 +156,52 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="container">
   <div class="row">
     <div class="input-group col-xs-12" style="margin-bottom: 0">
-      <div class="input-group-addon"><span class="glyphicon glyphicon-thumbs-up"></span></div>
+      <div class="input-group-addon" id="addImg"><span class="glyphicon glyphicon-picture"></span></div>
       <input type="text" class="form-control input-lg" id="replycontent" placeholder="回复" />
        <div class="input-group-btn">
         <button type="button" autocomplete="off" class="btn btn-primary btn-lg" id="sendBtn" data-loading-text="回复中..."><span class="glyphicon glyphicon-send" aria-hidden="true"></span>&nbsp;回复</button>
        </div>
     </div>
   </div>
+  <div id="imgdiv" >
+					<input id="img1" type="file" name="imgfile" onchange="PreviewImage(this,'imgHeadPhoto1','divPreview')" style="visibility:hidden;position: absolute;" />
+					<input id="img2" type="file" name="imgfile" onchange="PreviewImage(this,'imgHeadPhoto2','divPreview')" style="visibility:hidden;position: absolute;" />  
+					<input id="img3" type="file" name="imgfile" onchange="PreviewImage(this,'imgHeadPhoto3','divPreview')" style="visibility:hidden;position: absolute;" />    
+  </div>
+  <div class="row" >
+  <div class="panel panel-default" id="divPreview" style="display: none">
+  <div class="panel-body">
+			<div class="col-xs-6 col-md-4">
+			<a href="#" class="thumbnail"> <span
+				class="glyphicon glyphicon-remove-sign pull-right"
+				aria-hidden="true" onclick="javascript:clearImg1()"></span> <img
+				id="imgHeadPhoto1" src="${ctx }/images/add_img.png" alt=""
+				onclick="javascript:$('#img1').click()" width="74px"
+				height="74px" />
+			</a>
+			</div>
+			<div class="col-xs-6 col-md-4">
+			<a href="#" class="thumbnail"> <span
+			class="glyphicon glyphicon-remove-sign pull-right"
+				aria-hidden="true" onclick="javascript:clearImg2()"></span> <img
+				id="imgHeadPhoto2" src="${ctx }/images/add_img.png" alt=""
+				onclick="javascript:$('#img2').click()" width="74px"
+			height="74px" />
+		    </a>
+		</div>
+		<div class="col-xs-6 col-md-4 ">
+		<a href="#" class="thumbnail"> <span
+		class="glyphicon glyphicon-remove-sign pull-right"
+		aria-hidden="true" onclick="javascript:clearImg3()"></span> <img
+			id="imgHeadPhoto3" src="${ctx }/images/add_img.png" alt=""
+		onclick="javascript:$('#img3').click()" width="74px"
+		height="74px" />
+			</a>
+	</div>
+		</div>
+	</div>
+</div>
+	
  </div>
 </nav>
 </c:if>
@@ -178,26 +226,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </button>
 	<!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
         <script src="http://libs.baidu.com/jquery/1.9.0/jquery.min.js"></script>
+        <script src="${ctx }/js/ajaxfileupload.js"></script>
         <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> 
-        <script>
+         <script src="${ctx }/js/selectImg.js"></script> 
+         <script>
+         $("#addImg").on('click', function () {
+          $("#divPreview").slideToggle();
+         });
 		  $('#sendBtn').on('click', function () {
 		   var flag=true;
        	   var replycontent=$("#replycontent");
        	   if($.trim(replycontent.val()) ==""){
        		replycontent.css({"color":"red"})   
-       		replycontent.val('请填写回复内容')
+       		replycontent.val('请填写回复内容');
+       		$('#sendBtn').attr("disabled","disabled");
        		   setTimeout(function(){
        			replycontent.val('')
-       			replycontent.css({"color":"#333"})  
+       			replycontent.css({"color":"#333"});
+       			$('#sendBtn').removeAttr("disabled");
        		   },1000)
        		   flag=false;
        	   }
        	   if(flag){
 		    var btn = $(this).button('loading');
-		    $.ajax({
-	        	 async:false,
-	             type: "post",
+		    $.ajaxFileUpload({
+		    	 secureuri:false,  
+		    	 fileElementId:['img1','img2','img3'],//file标签的id  
 	             url:"${ctx}/reply/sendMyReply.action",
 	             dataType:"json",
 	             data:{postid:${mainpost.id},content:$("#replycontent").val()},

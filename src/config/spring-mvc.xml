@@ -37,8 +37,11 @@
 		   <mvc:interceptor>
 		   <mvc:mapping path="/*/*"/>
 		   <mvc:exclude-mapping path="/user/entermain.action"/>
+		   <mvc:exclude-mapping path="/user/toBinduser.action"/>
 		   <mvc:exclude-mapping path="/user/bind.action"/>
 		   <mvc:exclude-mapping path="/user/login.action"/>
+		   <mvc:exclude-mapping path="/user/checkUsernameIsused.action"/>
+		   <mvc:exclude-mapping path="/community/queryAllCommunity.action"/>
 		   <bean class="com.doctorhelper.interceptor.LoginSessionInterceptor"></bean>
 		  </mvc:interceptor>
 	</mvc:interceptors>

@@ -4,6 +4,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -52,7 +53,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      </div>
     </div>
 <p>${reply.content }</p>
+<c:if test="${fn:length(reply.attepmts)>0}">
+<c:forEach items="${reply.attepmts }" var="attemptrep">
+  <div class="col-xs-10 col-md-4">
+    <a href="#" class="thumbnail">
+      <img src="${attemptrep.fileurl}" alt="...">
+    </a>
+  </div>
+ </c:forEach>
+</c:if>
+<c:if test="${fn:length(reply.replyset)>0}">
 <hr/>
+</c:if>
 <div class="container-fluid">
 <c:forEach items="${reply.replyset }" var="childreplay">
 <div class="row">

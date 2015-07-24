@@ -1,21 +1,20 @@
 package com.doctorhelper.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
-import oracle.sql.DATE;
-
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.doctorhelper.dao.post.IPostDao;
 import com.doctorhelper.entity.Message;
 import com.doctorhelper.entity.Post;
-import com.doctorhelper.entity.Reply;
 import com.doctorhelper.entity.User;
 import com.doctorhelper.service.IPostService;
+import com.doctorhelper.util.CommonDateParseUtil;
 @Service
 public class PostServiceImpl implements IPostService {
 @Autowired
@@ -163,6 +162,34 @@ private IPostDao postdao;
 		//String hql="update Post p set p.updatetime=now() where p.id="+p.getId();
 	    p.setUpdatetime(new Date()); 
 		postdao.getSession().merge(p);
+	}
+	/**
+	 * 查询时间段内更新数据
+	 */
+	@Override
+	public Integer querylatelypublicpostsCount(User u,String begintime) {
+		System.out.println("起始时间："+begintime+"||"+new Date());
+		String sql=" select COUNT(id) from (select * from dh_post p where p.ispublic=1 or p.user_id=? ) a "+
+                     "where updatetime BETWEEN ? and ?";
+		Integer count=(Integer) postdao.getSession().createSQLQuery(sql)
+				.setLong(0, u.getId())
+				.setParameter(1, begintime)
+				.setParameter(2, CommonDateParseUtil.date2string(new Date(), CommonDateParseUtil.YYYY_MM_DD_HH_MM_SS))
+				.uniqueResult();
+		return count;
+	}
+	/**
+	 * 查询时间段内回复我的
+	 */
+	@Override
+	public Long querymylatelypostCount(User u,String begintime) {
+		System.out.println("查询时间段内回复我的:"+begintime+"||"+CommonDateParseUtil.date2string(new Date(), CommonDateParseUtil.YYYY_MM_DD_HH_MM_SS));
+		return (Long) postdao.getSession().createCriteria(Post.class,"p").setProjection(Projections.rowCount())
+				.createAlias("p.user", "u")
+				.createAlias("p.replys", "r")
+				.add(Restrictions.eq("u.id", u.getId()))
+				.add(Expression.between("r.createtime", CommonDateParseUtil.string2date(begintime, CommonDateParseUtil.YYYY_MM_DD_HH_MM_SS), new Date()))
+				.uniqueResult();
 	}
 	
 }

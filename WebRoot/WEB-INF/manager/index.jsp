@@ -175,8 +175,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <script src="${ctx }/js/jquery.js"></script>
+  <!-- jQuery -->
+        <script src="http://libs.baidu.com/jquery/1.9.0/jquery.min.js"></script>
+        <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> 
     <!-- Morris Charts JavaScript -->
 	  <script src="${ctx }/js/iosOverlay.js"></script>
 	  <script src="${ctx }/js/spin.min.js"></script>

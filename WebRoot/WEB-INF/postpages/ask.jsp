@@ -57,13 +57,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="name">内容</label>
                         <textarea class="form-control" rows="6" placeholder="请输入0-255内容" name="content" required id="content"></textarea>
 					</div>
+					<div class="form-group">
+						<h3><span id="addImg" class="glyphicon glyphicon-picture"></span></h3>
+					</div>
 					<div class="form-group" id="imgdiv" >
 					<input id="img1" type="file" name="imgfile" onchange="PreviewImage(this,'imgHeadPhoto1','divPreview')" style="visibility:hidden;position: absolute;" />
 					<input id="img2" type="file" name="imgfile" onchange="PreviewImage(this,'imgHeadPhoto2','divPreview')" style="visibility:hidden;position: absolute;" />  
 					<input id="img3" type="file" name="imgfile" onchange="PreviewImage(this,'imgHeadPhoto3','divPreview')" style="visibility:hidden;position: absolute;" />    
 					</div>
-					<div id="divPreview">  
-					<div class="row">
+					<div class="form-group" >
+					  <div class="panel panel-default" id="divPreview" style="display: none">
+					  <div class="panel-body">
 							  <div class="col-xs-12 col-md-4" >
 							    <a href="#" class="thumbnail">
 							     <span class="glyphicon glyphicon-remove-sign pull-right" aria-hidden="true" onclick="javascript:clearImg1()"></span>
@@ -83,6 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							    </a>
 							  </div>
 							</div>
+					</div>
 					</div>  
 						 <div class="form-group">
 			           <label class="control-label" for="ispublic">是否公开</label>
@@ -116,6 +121,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- 隐藏的模态窗 -->
+<div class="modal fade" id="LoadingModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+      <img alt="" src="${ctx}/images/Loading.gif" width="200px" height="200px">发表中...
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- 隐藏的模态窗 -->
 <div class="modal fade" id="failedModal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -138,6 +153,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <script src="${ctx }/js/bootstrap-switch.min.js"></script>
         <script src="${ctx }/js/selectImg.js"></script> 
         <script type="text/javascript">
+           $("#addImg").on('click', function () {
+            $("#divPreview").slideToggle();
+           });
            $(":input[name='ispublic']").bootstrapSwitch();
            $("#publishbtn").on("click", function(){
         	   var flag=true;
@@ -159,6 +177,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	   }
         	   var param=$("#publishForm").serialize();
     		  if(flag){
+    			  $('#LoadingModal').modal('show');
     			  $.ajaxFileUpload({  
     		            url:'${ctx}/post/savePost.action',  
     		            secureuri:false,  
@@ -172,6 +191,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		            } ,
     	                success: function(data){
     	            	if(data.code==1){
+    	            		$('#LoadingModal').modal('hide');
     	            		$('#successModal').modal('show');
     	            		$("#publishForm")[0].reset();
     	            		flag=true;

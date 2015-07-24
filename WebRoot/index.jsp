@@ -163,7 +163,7 @@ $(function() {
       <div class="caption">
         <h4>咨询医生</h4>
         <p>...</p>
-        <p><a href="${ctx}/post/toPostList.action?pagenum=1&size=4" class="btn btn-primary" role="button">进入咨询</a></p>
+        <p><a href="${ctx}/post/toPostList.action?pagenum=1&size=4&lately=lately" class="btn btn-primary" role="button">进入咨询</a></p>
       </div>
     </div>
   </div>
@@ -174,10 +174,11 @@ $(function() {
     <div class="thumbnail">
     <h3><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></h3>  
     <c:choose>
-    <c:when test="${user.isbinded }">
+    <c:when test="${user.isbinded=='1' }">
     <div class="caption">
     <h4>账号绑定</h4>
-    <p>您已绑定的账号为：<kbd>${user.loginname}</kbd> </p>
+    <p>您已绑定的账号为：<br/><kbd>${user.loginname}</kbd> </p>
+    
     <p><a href="${ctx}/accountbind.jsp" class="btn btn-primary" role="button">重新绑定</a></p>
     </div>
     </c:when>
@@ -185,7 +186,7 @@ $(function() {
     <div class="caption">
         <h4>绑定账号</h4>
         <p>只有绑定账号后，您才可以在PC端登陆..</p>
-        <p><a href="${ctx}/accountbind.jsp" class="btn btn-primary" role="button">进入</a></p>
+        <p><a href="${ctx}/user/toBinduser.action" class="btn btn-primary" role="button">进入</a></p>
       </div>
     </c:otherwise>
     </c:choose>
@@ -197,10 +198,28 @@ $(function() {
       <div class="caption">
       <h4>修改密码</h4>
       <p>修改密码，以确保账号的安全....</p>
-      <p><a href="${ctx }/user/toMidifyPwd.action" class="btn btn-primary" role="button">进入</a></p>
+      <p><a  onclick="valimodifypwd()"   class="btn btn-primary" role="button">进入</a></p>
       </div>
     </div>
   </div>
 </div>
+<script type="text/javascript" charset="utf-8">
+function valimodifypwd(){
+	$.ajax({
+		   async:false,
+		   type: "post",
+		   url: "${ctx}/user/checkisbinded.action",
+		   dataType: "json",
+		   success: function(msg){
+			   if(msg.code==1){
+				  location.href="${ctx}/user/toMidifyPwd.action"
+			   }
+			   else{
+				   alert(msg.text)
+			   }
+		   }
+		});
+}
+</script>
   </body>
 </html>

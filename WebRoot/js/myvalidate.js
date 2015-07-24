@@ -70,26 +70,4 @@ function validtepasswordAg(){
 	}
 	return true;
 }
-/**
- * 验证用户名是否重复
- */
-function vallidatenameisused(){
-	var uname=$("#inputname");
-	$.ajax({
-		   async:false,
-		   type: "post",
-		   url: "user/checkUsernameIsused.action",
-		   data: {name:uname.val()},
-		   dataType: "json",
-		   success: function(msg){
-			   if(msg.code==0){
-				   uname.parent().prev().text('用户名已存在'); 
-				   flag=false;
-			   }
-			   else{
-				   uname.parent().prev().text(''); 
-				   flag=true;  
-			   }
-		   }
-		});
-}
+

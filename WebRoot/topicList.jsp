@@ -123,7 +123,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    </c:choose>
 		    </c:forEach>
 		    <c:choose>
-		    <c:when test="${pagerows.rows==currentpage}">
+		    <c:when test="${pagerows.rows<=currentpage}">
 		    <li class="disabled">
 		      <a  aria-label="Next">
 		        <span aria-hidden="true">下一页</span>

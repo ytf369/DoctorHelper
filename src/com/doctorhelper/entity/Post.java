@@ -19,7 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 @Entity
-@Table(catalog="doctorhelperdb", name="dh_post")
+@Table( name="dh_post")
 public class Post implements Comparable<Post>{
 private Long id;
 private User user;

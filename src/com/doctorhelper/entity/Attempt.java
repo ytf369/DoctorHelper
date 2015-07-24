@@ -11,7 +11,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(catalog="doctorhelperdb", name="dh_attempt")
+@Table( name="dh_attempt")
 public class Attempt {
 private Long id;
 private String filename;

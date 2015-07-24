@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity
-@Table(catalog="doctorhelperdb", name="dh_department")
+@Table( name="dh_department")
 public class Department {
  private Long id;
  private String name;

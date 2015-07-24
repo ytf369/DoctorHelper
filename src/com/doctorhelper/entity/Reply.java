@@ -2,6 +2,7 @@ package com.doctorhelper.entity;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -16,7 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 @Entity
-@Table(catalog="doctorhelperdb", name="dh_reply")
+@Table(name="dh_reply")
 public class Reply implements Comparable<Reply>{
 private Long id;
 private User user;
@@ -27,6 +28,7 @@ private String content;
 private Date createtime;
 private int goodcount=0;
 private int badcount=0;
+private Set<Attempt> attepmts=new HashSet<Attempt>();
 @Id
 @GeneratedValue
 public Long getId() {
@@ -90,6 +92,14 @@ public Set<Reply> getReplyset() {
 }
 public void setReplyset(Set<Reply> replyset) {
 	this.replyset = replyset;
+}
+@OneToMany(cascade = CascadeType.ALL) 
+@JoinColumn(name="reply_id")
+public Set<Attempt> getAttepmts() {
+	return attepmts;
+}
+public void setAttepmts(Set<Attempt> attepmts) {
+	this.attepmts = attepmts;
 }
 //排序
 @Override
