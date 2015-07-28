@@ -14,7 +14,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <title>我要提问</title>   
         <!-- Bootstrap -->
         <link href="${ctx }/css/bootstrap.min.css" rel="stylesheet">
-        <link href="${ctx }/css/bootstrap-switch.min.css" rel="stylesheet">
         <link href="${ctx }/css/style.css" rel="stylesheet">
         <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
         <!--[if lt IE 9]>
@@ -89,13 +88,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 					</div>
 					</div>  
-						 <div class="form-group">
-			           <label class="control-label" for="ispublic">是否公开</label>
-			           <div class="controls">
-			            <div class="switch" data-animated="false" data-on-label="公开" data-off-label="私密" >
-			                <input id="ispublic" type="checkbox" name="ispublic" data-handle-width="60" checked />
-			            </div>
-			           </div>
+				    <div class="form-group">
+				    <label>是否公开：</label>
+			             <select class="form-control" name="ispublic">
+							  <option value="on">公开</option>
+							  <option value="off">私密</option>
+							</select>
 			         </div>
 					<div class="center top10">
 					<button type="button" class="btn btn-success btn-md btn-block" id="publishbtn">发表</button>
@@ -156,7 +154,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            $("#addImg").on('click', function () {
             $("#divPreview").slideToggle();
            });
-           $(":input[name='ispublic']").bootstrapSwitch();
            $("#publishbtn").on("click", function(){
         	   var flag=true;
         	   var title=$("#title").val();

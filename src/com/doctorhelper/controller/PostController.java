@@ -152,6 +152,7 @@ public String publishMyPost(Model model){
 @RequestMapping("/savePost.action")
 public Message savePost(HttpServletRequest request,HttpSession session,Post p,Long deptid) {
 	Department dept=deptservice.findDeptById(deptid);
+	System.out.println("公开："+p.getIspublic());
 	if("on".equals(p.getIspublic())){
 		p.setIspublic("1");
 	}

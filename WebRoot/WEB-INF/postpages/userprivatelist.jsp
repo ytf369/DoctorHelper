@@ -58,13 +58,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div class="panel panel-primary" style="margin-top: 60px">
     <c:if test="${poststate=='toPostList' }"><div class="panel-heading"><span class="glyphicon glyphicon-time" ></span>&nbsp;最近发表
         <button type="button" class="btn btn-primary pull-right" style="margin-top: -5px" onclick="window.location.href='${ctx}/post/publishMyPost.action'">
-                  我要提问
+                  <span class="glyphicon glyphicon-question-sign"></span>&nbsp;我要提问
       </button>
      </div>
     </c:if>
      <c:if test="${poststate=='myposts' }"><div class="panel-heading"><span class="glyphicon glyphicon-edit" ></span>&nbsp;我的提问
      <button type="button" class="btn btn-primary pull-right" style="margin-top: -5px" onclick="window.location.href='${ctx}/post/publishMyPost.action'">
-                  我要提问
+              <span class="glyphicon glyphicon-question-sign"></span>&nbsp;我要提问
       </button>
      </div></c:if>
       <div class="panel-body">
@@ -148,10 +148,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <c:choose>
     <c:when test="${poststate=='toPostList'}">
     <button type="button" class="btn btn-primary" onclick="location.href='${ctx}/post/toPostList.action?pagenum=1&size=4&lately=lately'">
-    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;最近发表 <c:if test="${latelypublicpostsCount>0 }"><span class="badge">${latelypublicpostsCount }</span></c:if></button>
+    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>最近发表<c:if test="${latelypublicpostsCount>0 }"><span class="badge" style="position:relative;top: -15px;left: -15px "> ${latelypublicpostsCount }</span></c:if></button>
     </c:when>
     <c:otherwise>
-    <button type="button" class="btn btn-default" onclick="location.href='${ctx}/post/toPostList.action?pagenum=1&size=4&lately=lately'"><span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;最近发表<c:if test="${latelypublicpostsCount>0 }"><span class="badge">${latelypublicpostsCount }</span></c:if></button>
+    <button type="button" class="btn btn-default" onclick="location.href='${ctx}/post/toPostList.action?pagenum=1&size=4&lately=lately'"><span class="glyphicon glyphicon-time" aria-hidden="true"></span>最近发表<c:if test="${latelypublicpostsCount>0 }"><span class="badge">${latelypublicpostsCount }</span></c:if></button>
     </c:otherwise>
     </c:choose>
   </div>
@@ -162,10 +162,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="btn-group btn-group-lg" role="group">
    <c:choose>
     <c:when test="${poststate=='myposts'}">
-    <button type="button" class="btn btn-primary" onclick="location.href='${ctx}/post/myposts.action?pagenum=1&size=4&lately=lately'"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;我的提问 <c:if test="${mylatelypostCount>0 }"><span class="badge">${mylatelypostCount }</span></c:if></button>
+    <button type="button" class="btn btn-primary" onclick="location.href='${ctx}/post/myposts.action?pagenum=1&size=4&lately=lately'"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>我的提问 <c:if test="${mylatelypostCount>0 }"><span class="badge">${mylatelypostCount }</span></c:if></button>
     </c:when>
     <c:otherwise>
-    <button type="button" class="btn btn-default" onclick="location.href='${ctx}/post/myposts.action?pagenum=1&size=4&lately=lately'"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;我的提问 <c:if test="${mylatelypostCount>0 }"><span class="badge">${mylatelypostCount }</span></c:if></button>
+    <button type="button" class="btn btn-default" onclick="location.href='${ctx}/post/myposts.action?pagenum=1&size=4&lately=lately'"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>我的提问 <c:if test="${mylatelypostCount>0 }"><span class="badge">${mylatelypostCount }</span></c:if></button>
     </c:otherwise>
     </c:choose>
   </div>

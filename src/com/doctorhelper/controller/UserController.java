@@ -178,8 +178,20 @@ public class UserController {
     		else{
     		session.setAttribute("user", u);
     		//保存用户姓名，社区到cookie
-    		String realname_url=URLEncoder.encode(u.getRealname(),"utf-8");
-    		String community_url=URLEncoder.encode(u.getCommunity(),"utf-8");
+    		String realname_url;
+			String community_url;
+    		if(u.getRealname()==null){
+				realname_url=URLEncoder.encode("","utf-8");
+			}
+			else{
+				realname_url=URLEncoder.encode(u.getRealname(),"utf-8");
+			}
+			if(u.getCommunity()==null){
+				community_url=URLEncoder.encode("","utf-8");
+			}
+			else{
+    		community_url=URLEncoder.encode(u.getCommunity(),"utf-8");
+			}
 			Cookie cookie = new Cookie("cookie_user",realname_url+ "|"+community_url);
 			cookie.setPath("/");
 			response.addCookie(cookie);
