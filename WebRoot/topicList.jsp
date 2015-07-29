@@ -86,7 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <h4 class="media-heading">${post.title}<span class="badge pull-right">${fn:length(post.replys)}</span></h4>
                    ${fn:substring(post.content, 0, 15) }
                    <c:if test="${fn:length(post.content)>=15} ">...</c:if>
-                   <p><span class="label label-primary">${post.dept.name}</span>
+                   <p><span class="label label-primary">${post.dept}</span>
                    <span class="label label-default pull-right" ><fmt:formatDate value="${post.createtime}" pattern="yyyy-MM-dd hh:mm:ss"/> </span></p>
          </div>
          </div>

@@ -34,7 +34,7 @@ private String islocked="0";//0：未锁定 1：锁定
 private String isend="0";//0：未结贴 1：结贴
 private Set<Reply> replys=new TreeSet<Reply>();
 private Set<Attempt> attepmts=new HashSet<Attempt>();
-private Department dept;
+private String dept;
 @Id
 @GeneratedValue
 public Long getId() {
@@ -122,14 +122,13 @@ public Set<Attempt> getAttepmts() {
 public void setAttepmts(Set<Attempt> attepmts) {
 	this.attepmts = attepmts;
 }
-@ManyToOne(targetEntity=Department.class)
-@JoinColumn(name ="dept_id")   
-public Department getDept() {
+public String getDept() {
 	return dept;
 }
-public void setDept(Department dept) {
+public void setDept(String dept) {
 	this.dept = dept;
 }
+
 //排序
 @Override
 public int compareTo(Post o) {
@@ -143,6 +142,7 @@ public int compareTo(Post o) {
             return 0;  
         return -1;  
 }
+
 @Override
 public String toString() {
 	return "Post [id=" + id + ", user=" + user + ", title=" + title

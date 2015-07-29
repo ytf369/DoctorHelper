@@ -45,10 +45,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							class="form-control" id="title" placeholder="请输入标题" required>
 					</div>
 					<div class="form-group">
-						<label for="name">选择类型：</label>
-					      <select class="form-control" name="deptid">
+						<label>选择类型：</label>
+					      <select class="form-control" name="dept">
 					      <c:forEach items="${depts }" var="dept">
-					         <option value="${dept.id }">${dept.name }</option>
+					         <option value="${dept.name }">${dept.name }</option>
 					         </c:forEach>
 					      </select>
 					</div>
@@ -183,7 +183,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		            data:{
     		            	title:$(":input[name='title']").val(),
     		            	content:$(":input[name='content']").val(),
-    		            	deptid:$(":input[name='deptid']").val(),
+    		            	dept:$(":input[name='dept']").val(),
     		            	ispublic:$(":input[name='ispublic']").val(),
     		            } ,
     	                success: function(data){

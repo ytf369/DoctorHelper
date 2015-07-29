@@ -57,6 +57,9 @@ public String toPostList(HttpSession session,Model model,Integer pagenum,Integer
 	long rows;
 	PageList pagerows=new PageList();
 	User u=(User)session.getAttribute("user");
+	if(u==null){
+		return "/WEB-INF/error/noaccessRole";
+	}
 	if("0".equals(u.getRole())||u.getRole()==null){
 		//普通用户
 		//查询刚更新的
@@ -150,8 +153,7 @@ public String publishMyPost(Model model){
  */
 @ResponseBody
 @RequestMapping("/savePost.action")
-public Message savePost(HttpServletRequest request,HttpSession session,Post p,Long deptid) {
-	Department dept=deptservice.findDeptById(deptid);
+public Message savePost(HttpServletRequest request,HttpSession session,Post p) {
 	System.out.println("公开："+p.getIspublic());
 	if("on".equals(p.getIspublic())){
 		p.setIspublic("1");
@@ -162,7 +164,6 @@ public Message savePost(HttpServletRequest request,HttpSession session,Post p,Lo
 	User u=(User) session.getAttribute("user");
 	System.out.println("标题："+p.getTitle());
 	p.setUser(u);
-	p.setDept(dept);
 	p.setCreatetime(new Date());
 	p.setUpdatetime(new Date());
 	handleFormUpload(request,p);

@@ -75,7 +75,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      </c:if></span>
      <span class="label label-primary padding000">${mainpost.user.country }</span>
      </h3>
-   <h4>咨询科室： <span class="label label-primary">${mainpost.dept.name}</span></h4>
+   <h4>咨询科室： <span class="label label-primary">${mainpost.dept}</span></h4>
    <span>发表于：<fmt:formatDate value="${mainpost.createtime}" pattern="yyyy-MM-dd hh:mm:ss"/></span>
      </div>
      </div>
