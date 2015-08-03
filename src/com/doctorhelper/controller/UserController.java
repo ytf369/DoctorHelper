@@ -45,7 +45,6 @@ public class UserController {
 		//用户微信授权
     	if(code!=null&&!"".equals(code)){
     		System.out.println("CODE：="+code+"*****STATE:="+state+"*****SESSIONID：="+session.getId());
-    		System.out.println(getIpAddr(request));
     		//查询个人信息
     		String userinfoJson=WeChatUtil.getAuthedUserInfo(code);
     		logger.info("获得授权的个人信息："+userinfoJson);
@@ -314,7 +313,6 @@ public class UserController {
       @ResponseBody
       @RequestMapping("/updateUserchecked.action")
       public Message updateUserchecked(Long id,String checked){
-    	  System.out.println(id+"||"+checked);
     	  Message mg=new Message();
     	  try {
     		  userservice.updateUserChecksta(id, checked);

@@ -80,7 +80,6 @@ public String toPostList(HttpSession session,Model model,Integer pagenum,Integer
 		}
 		Long beginPage=PageUtil.getbeginPage(pagenum, 4);
 		Long endPage=PageUtil.getendPage(rows, pagenum, 4);
-		logger.info("共"+rows+"页;起始页："+beginPage+";结束页："+endPage);
 		pagerows.setList(list);
 		pagerows.setRows(rows);
 		model.addAttribute("pagerows", pagerows);
@@ -103,8 +102,6 @@ public String toPostList(HttpSession session,Model model,Integer pagenum,Integer
 		//List<Post> list2=postservice.queryhasreplyPost(pagenum, size);
 		count=postservice.querynoreplyCount();
 	
-	logger.info("查询的主题："+list);
-	logger.info("查询的记录数："+count);
 	if(count%size>0){
 		rows=count/size+1;
       }
@@ -113,7 +110,6 @@ public String toPostList(HttpSession session,Model model,Integer pagenum,Integer
 	}
 	Long beginPage=PageUtil.getbeginPage(pagenum, 4);
 	Long endPage=PageUtil.getendPage(rows, pagenum, 4);
-	logger.info("共"+rows+"页");
 	pagerows.setList(list);
 	pagerows.setRows(rows);
 	model.addAttribute("pagerows", pagerows);
@@ -154,7 +150,6 @@ public String publishMyPost(Model model){
 @ResponseBody
 @RequestMapping("/savePost.action")
 public Message savePost(HttpServletRequest request,HttpSession session,Post p) {
-	System.out.println("公开："+p.getIspublic());
 	if("on".equals(p.getIspublic())){
 		p.setIspublic("1");
 	}
@@ -162,7 +157,6 @@ public Message savePost(HttpServletRequest request,HttpSession session,Post p) {
 		p.setIspublic("0");
 	}
 	User u=(User) session.getAttribute("user");
-	System.out.println("标题："+p.getTitle());
 	p.setUser(u);
 	p.setCreatetime(new Date());
 	p.setUpdatetime(new Date());
@@ -286,7 +280,6 @@ public void handleFormUpload(HttpServletRequest request,Post p){
 	  List<MultipartFile> file = multipartRequest.getFiles("imgfile");  
 	  Set<Attempt> apts=new  HashSet<Attempt>();
 	  String path = request.getSession().getServletContext().getRealPath("../attempt/"); // 获取本地存储路径  
-	  System.out.println(file.size()+"个文件");  
 	  FileOutputStream fileOutputStream = null;  
 	  for (int i = 0; i < file.size(); i++) {  
 	   if (!file.get(i).isEmpty()) {
