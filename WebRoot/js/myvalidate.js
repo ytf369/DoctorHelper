@@ -19,7 +19,8 @@ function validateloginname(){
 	return true;
 }
 function validaterealname(){
-	var reg=/[@#\$%\^&\*]+/g;
+	//var reg=/[@#\$%\^&\*]+/g;
+	var reg=/^(\u4e00-\u9fa5\\w·)/;
 	var realname=$("#realname");
 	if($.trim(realname.val())==""){
 		realname.parent().prev().text('真实姓名不能为空');
